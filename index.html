@@ -7,7 +7,7 @@
 </head>
 <body>
     <center><h1>Exam Application</h1></center>
-    <form id="examForm" action="javascript:void(0);" onsubmit="showConfirmation()" method="GET">
+    <form id="examForm" action="javascript:void(0);" onsubmit="showConfirmation(event)" method="GET">
         <fieldset>
             <legend>Student info</legend>
             <label for="name">Student name:</label>
@@ -83,42 +83,53 @@
         <center><h1>Confirmation Page</h1></center>
         <div>
             <h2>Student Info</h2>
-            <p><strong>Name:</strong> <span id="name"></span></p>
-            <p><strong>Date of Birth:</strong> <span id="dob"></span></p>
-            <p><strong>Gender:</strong> <span id="gender"></span></p>
-            <p><strong>Address:</strong> <span id="address"></span></p>
-            <p><strong>State:</strong> <span id="state"></span></p>
-            <p><strong>Contact Number:</strong> <span id="phone"></span></p>
-            <p><strong>Email:</strong> <span id="email"></span></p>
-            <p><strong>Choice of Exam Date:</strong> <span id="examDate"></span></p>
-            <p><strong>Photo:</strong> <span id="photo"></span></p>
-            <p><strong>Signature:</strong> <span id="signature"></span></p>
+            <p><strong>Name:</strong> <span id="nameConfirmation"></span></p>
+            <p><strong>Date of Birth:</strong> <span id="dobConfirmation"></span></p>
+            <p><strong>Gender:</strong> <span id="genderConfirmation"></span></p>
+            <p><strong>Address:</strong> <span id="addressConfirmation"></span></p>
+            <p><strong>State:</strong> <span id="stateConfirmation"></span></p>
+            <p><strong>Contact Number:</strong> <span id="phoneConfirmation"></span></p>
+            <p><strong>Email:</strong> <span id="emailConfirmation"></span></p>
+            <p><strong>Choice of Exam Date:</strong> <span id="examDateConfirmation"></span></p>
         </div>
         <button onclick="editForm()">Edit Form</button>
     </div>
 
     <script>
-        function showConfirmation() {
+        function showConfirmation(event) {
             event.preventDefault(); // Prevent form submission
             document.getElementById("examForm").style.display = "none"; // Hide form
             document.getElementById("confirmationData").style.display = "block"; // Show confirmation data
-
-            // Populate confirmation data
-            document.getElementById("name").innerText = document.getElementById("name").value;
-            document.getElementById("dob").innerText = document.getElementById("DOB").value;
-            document.getElementById("gender").innerText = document.querySelector('input[name="Gender"]:checked').value;
-            document.getElementById("address").innerText = document.getElementById("address").value;
-            document.getElementById("state").innerText = document.getElementById("state").value;
-            document.getElementById("phone").innerText = document.getElementById("PhoneNo").value;
-            document.getElementById("email").innerText = document.getElementById("mail").value;
-            document.getElementById("examDate").innerText = document.getElementById("exam").value;
+            document.getElementById("nameConfirmation").textContent = document.getElementById("name").value;
+            document.getElementById("dobConfirmation").textContent = document.getElementById("DOB").value;
+            document.getElementById("genderConfirmation").textContent = document.querySelector('input[name="Gender"]:checked').value;
+            document.getElementById("addressConfirmation").textContent = document.getElementById("address").value;
+            document.getElementById("stateConfirmation").textContent = document.getElementById("state").value;
+            document.getElementById("phoneConfirmation").textContent = document.getElementById("PhoneNo").value;
+            document.getElementById("emailConfirmation").textContent = document.getElementById("mail").value;
+            document.getElementById("examDateConfirmation").textContent = document.getElementById("exam").value;
             // You may need additional logic for photo and signature, as file inputs cannot be read directly due to security reasons
         }
 
         function editForm() {
             document.getElementById("examForm").style.display = "block"; // Show form
             document.getElementById("confirmationData").style.display = "none"; // Hide confirmation data
+            // Set input values based on confirmation data
+            document.getElementById("name").value = document.getElementById("nameConfirmation").textContent;
+            document.getElementById("DOB").value = document.getElementById("dobConfirmation").textContent;
+            var gender = document.getElementById("genderConfirmation").textContent;
+            document.querySelector('input[name="Gender"][value="' + gender + '"]').checked = true;
+            document.getElementById("address").value = document.getElementById("addressConfirmation").textContent;
+            // Ensure state is selected
+            var state = document.getElementById("stateConfirmation").textContent;
+            document.getElementById("state").value = state === "" ? "Select State" : state;
+            document.getElementById("PhoneNo").value = document.getElementById("phoneConfirmation").textContent;
+            document.getElementById("mail").value = document.getElementById("emailConfirmation").textContent;
+            document.getElementById("exam").value = document.getElementById("examDateConfirmation").textContent;
         }
+
     </script>
+    
 </body>
 </html>
+
